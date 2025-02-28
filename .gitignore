@@ -1,0 +1,32 @@
+# Ignorar arquivos do Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Ignorar arquivos do ambiente virtual
+venv/
+.env/
+.envrc
+*.env
+*.venv
+
+# Ignorar dependências instaladas
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Ignorar banco de dados SQLite local
+db.sqlite3
+db.sqlite3-journal
+
+# Ignorar arquivos de cache e logs
+*.log
+*.pot
+*.pyc
+
+# Ignorar configurações do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Ignorar arquivos do Django
+/media/
+/static/
