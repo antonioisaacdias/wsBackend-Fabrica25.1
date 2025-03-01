@@ -16,8 +16,13 @@ def signin(request):
         
         if user is not None:
             login(request, user)
-            return redirect('editorial')
-        
+            url = settings.INTERNAL_API_URL + 'auth/login/'
+            response = requests.post(url, data={'username': username, 'password': password})
+            if response.status_code == 200:
+                token = response.json()['token']
+                request.session['token'] = token
+                return redirect('editorial')
+                
         return render(request, 'frontend/login.html', {'error': 'Usuário ou senha inválidos'})
 
     if request.method == 'GET':
@@ -26,7 +31,14 @@ def signin(request):
 
 @login_required
 def signout(request):
+    token = request.session['token']
+    
+    if token:
+        url = settings.INTERNAL_API_URL + 'auth/logout/'
+        requests.get(url, headers={'Authorization': 'Token ' + token})
+        
     logout(request)
+    request.session.flush()
     return redirect('index')
 
 @login_required
@@ -48,5 +60,34 @@ def edit_article(request, slug):
     
     return render(request, 'frontend/edit_article.html', {'article': article})
 
+@login_required
 def new_article(request):
-    return render(request, 'frontend/new_article.html')
+    if request.method == 'GET':
+        url = settings.INTERNAL_API_URL + 'authors/'
+        response = requests.get(url)
+        authors = response.json()
+        return render(request, 'frontend/new_article.html', {'authors': authors})
+    if request.method == 'POST':
+
+        url = settings.INTERNAL_API_URL + 'articles/'
+        data = {
+            'title': request.POST.get('title'),
+            'subject': request.POST.get('subject'),
+            'resume': request.POST.get('resume'),
+            'content': request.POST.get('content'),
+            'author': request.POST.get('author'),
+        }
+        token = request.session['token']
+        print(data)
+        
+        if token:
+            url = settings.INTERNAL_API_URL + 'articles/'
+            request_headers = {'Authorization': 'Token ' + token}
+            response = requests.post(url, data=data, headers=request_headers)
+            if response.status_code == 201:
+                return redirect('editorial')
+            else:
+                return redirect('editorial', {'error', 'Ocorreu um erro ao salvar o artigo.'})
+        
+        return redirect('index')
+    

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-
+{% if user.is_authenticated %}
     <div class="container mt-5">
         <h5>Bem-vindo, {{ user.username }}</h5>
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -12,22 +12,24 @@
                 <a href="{% url 'editorial' %}" class="btn btn-secondary btn-lg">Retornar</a>
             </div>
         </div>
-        <form action="">
+        <form action="{% url 'new_article' %}" method='post'>
+            {% csrf_token %}
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="tile" name="tile">
+                <input type="text" class="form-control" id="title" name="title">
                 <label for="title">Título</label>
-            </div>
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="slug" name="slug">
-                <label for="slug">Slug</label>
             </div>
             <div class="row mb-3">
                 <div class="form-floating col">
                     <input type="text" class="form-control" id="subject" name="subject">
                     <label for="subject">Assunto</label>
                 </div>
+
                 <div class="form-floating col">
-                    <input type="text" class="form-control" id="author" name="author">
+                    <select name="author" id="author" class="form-control">
+                    {% for author in authors %}
+                        <option value="{{ author.id }}">{{ author.name }}</option>
+                    {% endfor %}
+                    </select>
                     <label for="author">Autor</label>
                 </div>
             </div>
@@ -44,4 +46,5 @@
             </div>
         </form>
     </div>
+{% endif %}
 {% endblock %}

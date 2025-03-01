@@ -9,7 +9,8 @@ class AuthorSerializer(serializers.ModelSerializer):
         
 class ArticleSerializer(serializers.ModelSerializer):
     author_name = serializers.CharField(source='author.name', read_only=True)
+    author = serializers.PrimaryKeyRelatedField(queryset=Author.objects.all())
     
     class Meta:
         model = Article
-        fields = ['id', 'title', 'slug', 'subject', 'resume', 'content', 'author_name', 'created_at', 'is_active']
+        fields = ['id', 'title', 'slug', 'subject', 'resume', 'content', 'author_name', 'created_at', 'is_active', 'author']
