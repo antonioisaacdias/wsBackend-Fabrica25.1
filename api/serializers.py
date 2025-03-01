@@ -8,6 +8,8 @@ class AuthorSerializer(serializers.ModelSerializer):
         
         
 class ArticleSerializer(serializers.ModelSerializer):
+    author_name = serializers.CharField(source='author.name', read_only=True)
+    
     class Meta:
         model = Article
-        fields = '__all__'
+        fields = ['id', 'title', 'slug', 'subject', 'resume', 'content', 'author_name', 'created_at', 'is_active']
