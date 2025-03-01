@@ -6,6 +6,7 @@ class AuthorSerializer(serializers.ModelSerializer):
         model = Author
         fields = '__all__'
         
+        
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
