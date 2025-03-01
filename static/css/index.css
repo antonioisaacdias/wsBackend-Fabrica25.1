@@ -1,0 +1,118 @@
+:root{
+    --background-color: rgb(245, 245, 245);
+    --font-brand: "Ubuntu Condensed", serif;
+    --font-interface: "Ubuntu", serif;
+    --font-articles: "Ubuntu Sans", serif;
+
+    --brand-orange-principal: #EFB921;
+    --brand-selected: #D3A420;
+    --brand-stroke: #898989;
+    --text-color: #4D4738;
+}
+
+body, html {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    font: 400 1rem/120% var(--font-interface);
+    color: var(--text-color);
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+
+header {
+    .brandbar{    
+        padding-block: 0.625rem;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        text-align: center;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        img{
+            height: 4rem;
+            width: auto;
+            margin-right: 1rem;
+        }
+        h1 {
+            height: 100%;
+            font: 600 4rem/100% var(--font-brand);
+            display: flex;
+            flex-wrap: nowrap;
+    
+        }
+    }
+
+    .navbar{
+        border-bottom: 1px solid var(--brand-stroke);
+        div{
+            .navbar-toggler{
+                background-color: var(--brand-orange-principal);
+            }
+            .navbar-toggler-icon {
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+            }
+
+            .collapse {
+                ul{
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-around;
+                    li{
+                        a{
+                            font: 500 1.2rem/100% var(--font-interface);
+                            color: var(--text-color) !important;
+                            text-decoration: none;
+
+                            &:hover{
+                                color: var(--brand-selected) !important;
+                            }
+                        }
+
+                    }
+                }
+
+            }
+        }
+    }
+
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    padding: 1rem;
+    font: 400 .85rem/80% var(--font-interface);
+    border-top: 1px solid var(--brand-stroke);
+}
+
+@media (max-width: 796px) {
+    header {
+        .brandbar{
+            padding-block: 0.625rem;
+            align-items: center;
+            img{
+                height: 3.5rem;
+                width: auto;
+                margin-right: 1rem;
+            }
+            h1 {
+                height: 100%;
+                font: 600 2.5rem/100% var(--font-brand);
+                display: flex;
+                flex-wrap: nowrap;
+                align-items: center;
+            }
+        }
+    }
+}
