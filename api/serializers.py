@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from .models import Author, Article
 
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
