@@ -57,6 +57,7 @@ header {
         div{
             .navbar-toggler{
                 background-color: var(--brand-orange-principal);
+                width: 100%;
             }
             .navbar-toggler-icon {
                 background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3E%3Cpath stroke='white' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
@@ -70,11 +71,11 @@ header {
                     li{
                         a{
                             font: 500 1.2rem/100% var(--font-interface);
-                            color: var(--text-color) !important;
+                            color: var(--text-color);
                             text-decoration: none;
 
                             &:hover{
-                                color: var(--brand-selected) !important;
+                                color: var(--brand-selected);
                             }
                         }
 
@@ -114,7 +115,82 @@ footer {
 
 }
 
-@media (max-width: 796px) {
+.index-content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    .mural{
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    .recent-articles{
+        width: 100%;
+        padding: 2vw 1rem;
+        display: flex;
+        flex-direction: column;
+        h2{
+            font-size: 2rem;
+        }
+
+        .cards-container{
+            width: 100%;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: space-between;
+            .card-article{
+                cursor: pointer;
+                width: 20%;
+                .img-wrapper{
+                    width: 100%;
+                    span {
+                        max-width: 100%;
+                        background-color: var(--brand-orange-principal);
+                        padding: .2rem .5rem;
+                        border-radius: 3px 3px 0 0;
+                        display: inline-block;
+                        text-align: center;
+                        justify-content: center;
+                        color: var(--background-color);
+                        font: 600 2vw/100% var(--font-interface)
+                    }
+                    img{
+                        width: 100%;
+                        height: auto;
+                        border-radius: 0 5px 5px 5px;
+                        object-fit: cover;
+                        box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
+                    }
+                }
+                article{
+                    margin-top: .6rem;
+                    h3{
+                        font-weight: 600;
+                    }
+                    .date{
+                        font: 600 1rem/100% var(--font-interface);
+                        display: inline-block;
+                        margin-bottom: .5rem;
+                        color:#898989
+                    }
+                    p {
+                        font: 450 1rem/140% var(--font-articles)
+                    }
+                }
+
+            }
+        }
+
+    }
+}
+
+@media (max-width: 750px) {
+    .navbar-collapse .navbar-nav .nav-item{
+        padding-block: .5rem;
+        display: flex;
+        border-bottom: 2px solid var(--brand-stroke);
+    }
+
     header {
         .brandbar{
             padding-block: 0.625rem;
@@ -130,6 +206,29 @@ footer {
                 display: flex;
                 flex-wrap: nowrap;
                 align-items: center;
+            }
+        }
+    }
+
+    .index-content{
+        .recent-articles{
+            .cards-container{
+
+                display: flex;
+                flex-direction: column; 
+                .card-article:not(:last-child){
+                    border-bottom: 2px solid var(--brand-stroke);  
+                }            
+                .card-article{
+
+                    width: 100%;
+                    padding-bottom: 1rem;
+                    .img-wrapper{
+                        span{
+                            font: 500 1.5rem/100% var(--font-interface);
+                        }
+                    }
+                }
             }
         }
     }
