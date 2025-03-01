@@ -29,4 +29,3 @@ Thumbs.db
 
 # Ignorar arquivos do Django
 /media/
-/static/
