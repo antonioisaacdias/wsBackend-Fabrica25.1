@@ -40,11 +40,13 @@ def editorial(request):
         
     return render(request, 'frontend/editorial.html', {'articles': articles})
 
-def article(request, slug):
+def edit_article(request, slug):
     url = settings.INTERNAL_API_URL + 'articles/' + slug + '/'
     response = requests.get(url)
     article = response.json()
     article['created_at'] = datetime_long_formater(article['created_at'])
     
     return render(request, 'frontend/edit_article.html', {'article': article})
-    
+
+def new_article(request):
+    return render(request, 'frontend/new_article.html')

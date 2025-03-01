@@ -7,5 +7,6 @@ urlpatterns = [
     path('editorial/', views.editorial, name='editorial'),
     path('accounts/login/', views.signin),
     path('logout/', views.signout, name='signout'),
-    path('editorial/article/<str:slug>/', views.article, name='article'),
+    path('editorial/article/<str:slug>', views.edit_article, name='edit_article'),
+    path('editorial/article/', views.new_article, name='new_article')
 ]

@@ -23,6 +23,7 @@
                 Blog Setup Linux BR
             </h1>
         </div>
+        {% if request.resolver_match.view_name == 'index' %}
         <nav class="navbar navbar-expand-sm">
             <div class="container-fluid">
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,6 +47,7 @@
               </div>
             </div>
         </nav>
+        {% endif %}
     </header>
 
     <main>
