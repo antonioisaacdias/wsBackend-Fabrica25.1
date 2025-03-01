@@ -78,7 +78,7 @@ def author(request, author_id):
 @api_view(['GET', 'POST'])
 def articles(request):
     if request.method == 'GET':
-        articles = Article.objects.all()
+        articles = Article.objects.only('id', 'title', 'created_at').order_by('-created_at')[:5]
         serializer = ArticleSerializer(articles, many=True)
         return Response(serializer.data)
     
@@ -145,12 +145,13 @@ def nyt_tech_articles(request):
                 article = {
                     'title': result['title'],
                     'subject': result['subsection'],
-                    'abstract': result['abstract'],
+                    'resume': result['abstract'],
                     'created_at': result['published_date'],
                     'image': result['multimedia'][0]['url'],
                     'url': result['url']
                 }
                 articles.append(article)
+                print(article['subject'])
         
         else:
             articles = []    

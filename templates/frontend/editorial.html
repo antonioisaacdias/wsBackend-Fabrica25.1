@@ -23,7 +23,6 @@
                     <th>Título</th>
                     <th>Autor</th>
                     <th>Data de criação</th>
-                    <th>Visibilidade</th>
                     <th>Opçãoes</th>
                 </tr>
             </thead>
@@ -34,10 +33,9 @@
                     <td>{{ article.title }}</td>
                     <td>{{ article.author_name }}</td>
                     <td>{{ article.created_at }}</td>
-                    <td>{{ article.is_active }}</td>
                     <td class="d-flex justify-content-center gap-2">
                         <a href="" class="btn btn-danger">Excluir</a>
-                        <a href="" class="btn btn-primary">Editar</a>
+                        <a href="{% url 'edit_article' article.slug%}" class="btn btn-primary">Editar</a>
                     </td>
                 </tr>
                 {% endfor %}

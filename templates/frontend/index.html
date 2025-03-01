@@ -1,6 +1,44 @@
 {% extends "frontend/base.html" %}
 
+{% load static %}
 {% block content %}
-    <h1>Setup Linux BR</h1>
-    <p>Este é um projeto para ajudar a configurar o Linux para o uso no Brasil.</p>
+    <div class="index-content">
+        <img class="mural" src="{% static 'img/mural-index.png' %}" alt="">
+        <div class="recent-articles">
+            <h2>Recentes</h2>
+            <div class="cards-container">
+                {% for article in articles %}
+                <div class="card-article" data-url="{% url 'full_article' article.slug %}"  onclick="window.location.href=this.getAttribute('data-url')">
+                    <div class="img-wrapper">
+                        <span>{{article.subject}}</span>
+                        <img src="{% static 'img/post-example.jpg'%}" alt="">
+                    </div>
+                    <article>
+                        <h3>{{article.title}}</h3>
+                        <span class="date">{{article.created_at}}</span>
+                        <p>{{article.resume}}</p>
+                    </article>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="recent-articles nyt">
+            <h2>Agora no NY Times</h2>
+            <div class="cards-container">
+                {% for article in nyt_news %}
+                <div class="card-article" onclick="window.location.href='{{ article.url }}'">
+                    <div class="img-wrapper">
+                        <span>NY Times</span>
+                        <img src="{{article.image}}" alt="">
+                    </div>
+                    <article>
+                        <h3>{{article.title}}</h3>
+                        <span class="date">{{article.created_at}}</span>
+                        <p>{{article.resume}}</p>
+                    </article>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

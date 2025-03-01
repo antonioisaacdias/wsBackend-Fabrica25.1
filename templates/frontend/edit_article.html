@@ -1,0 +1,68 @@
+{% extends "frontend/base.html" %}
+{% load static %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="container mt-5">
+    <h5>Bem-vindo, {{ user.username }}</h5>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Edição de artigo</h1>
+        <div class="d-flex gap-2 align-items-center">
+            <a href="{% url 'signout' %}" class="btn btn-danger btn-lg">Logout</a>
+            <a href="{% url 'editorial' %}" class="btn btn-secondary btn-lg">Retornar</a>
+        </div>
+    </div>
+    <form action="{% url 'edit_article' article.slug %}" method='post'>
+        {% csrf_token %}
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="id" name="id" value="{{article.id}}" hidden>
+            <label for="id">ID</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="title" name="title" value="{{article.title}}">
+            <label for="title">Título</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="slug" name="slug" value="{{article.slug}}" disabled>
+            <label for="slug">Slug</label>
+        </div>
+        <div class="row mb-3">
+            <div class="form-floating col">
+                <input type="text" class="form-control" id="subject" name="subject" value="{{article.subject}}">
+                <label for="subject">Assunto</label>
+            </div>
+
+            <div class="form-floating col">
+                <select name="author" id="author" class="form-control">
+                {% for author in authors %}
+                    <option value="{{ author.id }}">{{ author.name }} {% if author.id == article.author.id %}selected{% endif %}</option>
+                {% endfor %}
+                </select>
+                <label for="author">Autor</label>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="form-floating col">
+                <input type="text" class="form-control" id="created_at" name="created_at" value="{{article.created_at}}" disabled>
+                <label for="created_at">Criado em:</label>
+            </div>
+            <div class="form-floating col">
+                <input type="text" class="form-control" id="up" name="updated_at" value="{{article.updated_at}}" disabled>
+                <label for="updated_at">Atualizado em:</label>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="resume" name="resume" style="height: 6rem;">{{article.resume}}</textarea>
+            <label for="resume">Resumo</label>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="content" name="content" style="height: 60rem;" >{{article.content}}</textarea>
+            <label for="content">Conteúdo</label>
+        </div>
+        <div class="d-flex justify-content-end mb-5">
+            <button type="submit" class="btn btn-primary btn-lg">Salvar</button>
+        </div>
+    </form>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "frontend/base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="form-signin m-auto">
+    <h1>Erro{{error.code}}</h1>
+    <h3>{{error.message}}</h3>
+</section>
+{% endblock %}

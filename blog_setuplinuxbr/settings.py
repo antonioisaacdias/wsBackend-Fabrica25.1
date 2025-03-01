@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'frontend',
     'knox',
     'bootstrap5',
+    'django_extensions',
 ]
 
 

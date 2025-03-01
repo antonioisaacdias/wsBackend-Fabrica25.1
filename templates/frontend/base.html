@@ -23,7 +23,7 @@
                 Blog Setup Linux BR
             </h1>
         </div>
-        {% if request.resolver_match.view_name == 'index' %}
+        {% if request.resolver_match.view_name == 'index'  or request.resolver_match.view_name == 'full_article'%}
         <nav class="navbar navbar-expand-sm">
             <div class="container-fluid">
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,6 +59,7 @@
             <p>Setup Linux BR - 2025</p>
             <a href="{% url 'signin' %}">Acesso ao editorial.</a>
     </footer>
+
 
     {% bootstrap_javascript %}
 </body>
