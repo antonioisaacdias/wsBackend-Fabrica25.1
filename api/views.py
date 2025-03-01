@@ -1,10 +1,33 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from django.contrib.auth import authenticate
+from knox.models import AuthToken
 from rest_framework import status
 from django.conf import settings
 import requests
 from .models import *
 from .serializers import *
+
+
+@api_view(['POST'])
+def login(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+    
+    user = authenticate(username=username, password=password)
+    if not user:
+        return Response({'error': 'Credenciais inválidas'}, status=status.HTTP_404_NOT_FOUND)
+    
+    token = AuthToken.objects.create(user)[1]
+    return Response({'token': token}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def logout(request):
+    if request.auth:
+        request.auth.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET', 'POST'])
 def authors(request):
@@ -13,11 +36,14 @@ def authors(request):
         serializer = AuthorSerializer(authors, many=True)
         return Response(serializer.data)
     elif request.method == 'POST':
-        serializer = AuthorSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if not request.user.is_authenticated:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            serializer = AuthorSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def author(request, author_id):
@@ -29,6 +55,8 @@ def author(request, author_id):
         return Response(serializer.data)
     
     elif request.method == 'PUT':
+        if not request.user.is_authenticated:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         author = Author.objects.get(id=author_id)
         if author is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -39,6 +67,8 @@ def author(request, author_id):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == 'DELETE':
+        if not request.user.is_authenticated:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         author = Author.objects.get(id=author_id)
         if author is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -53,6 +83,8 @@ def articles(request):
         return Response(serializer.data)
     
     elif request.method == 'POST':
+        if not request.user.is_authenticated:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         serializer = ArticleSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -69,6 +101,8 @@ def article(request, article_id):
         return Response(serializer.data)
     
     elif request.method == 'PUT':
+        if not request.user.is_authenticated:            
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         article = Article.objects.get(id=article_id)
         if article is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
@@ -79,6 +113,8 @@ def article(request, article_id):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == 'DELETE':
+        if not request.user.is_authenticated:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         article = Article.objects.get(id=article_id)
         if article is None:
             return Response(status=status.HTTP_404_NOT_FOUND)
