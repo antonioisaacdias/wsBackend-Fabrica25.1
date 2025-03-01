@@ -16,7 +16,6 @@ def authors(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    pass
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def author(request, author_id):
@@ -43,4 +42,51 @@ def author(request, author_id):
             return Response(status=status.HTTP_404_NOT_FOUND)
         author.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    pass
+    
+@api_view(['GET', 'POST'])
+def articles(request):
+    if request.method == 'GET':
+        articles = Article.objects.all()
+        serializer = ArticleSerializer(articles, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        serializer = ArticleSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['GET', 'PUT', 'DELETE'])
+def article(request, article_id):
+    if request.method == 'GET':
+        article = Article.objects.get(id=article_id)
+        if article is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = ArticleSerializer(article)
+        return Response(serializer.data)
+    
+    elif request.method == 'PUT':
+        article = Article.objects.get(id=article_id)
+        if article is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = ArticleSerializer(article, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    elif request.method == 'DELETE':
+        article = Article.objects.get(id=article_id)
+        if article is None:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        article.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+    
+@api_view(['GET'])
+def article_by_slug(request, slug):
+    article = Article.objects.get(slug=slug)
+    if article is None:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = ArticleSerializer(article)
+    return Response(serializer.data)
