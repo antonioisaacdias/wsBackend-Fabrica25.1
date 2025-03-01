@@ -1,6 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+from django.conf import settings
+import requests
 from .models import *
 from .serializers import *
 
@@ -90,3 +92,31 @@ def article_by_slug(request, slug):
         return Response(status=status.HTTP_404_NOT_FOUND)
     serializer = ArticleSerializer(article)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def nyt_tech_articles(request):
+    if request.method == 'GET':
+        url = 'https://api.nytimes.com/svc/topstories/v2/technology.json'
+        params = {'api-key': settings.NYT_API_KEY}
+        response = requests.get(url, params=params)
+        
+        if response.status_code == 200:
+            data = response.json()
+            results = data['results'][:5]
+            articles = []
+            
+            for result in results:
+                article = {
+                    'title': result['title'],
+                    'subject': result['subsection'],
+                    'abstract': result['abstract'],
+                    'created_at': result['published_date'],
+                    'image': result['multimedia'][0]['url'],
+                    'url': result['url']
+                }
+                articles.append(article)
+        
+        else:
+            articles = []    
+        
+        return Response(articles)
