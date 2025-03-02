@@ -11,7 +11,7 @@ O projeto é dividido em **dois aplicativos**:
 
 ## Tecnologias Utilizadas
 
-- **Python 3.x**
+- **Python
 - **Django** (Backend e Templates)
 - **Django Rest Framework (DRF)**
 - **Django-Knox** (Autenticação via Token)
