@@ -138,5 +138,7 @@ Acesse o sistema em: [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 - **`new_article`** → Formulário para cadastro de um novo artigo.
 
-
-
+### Patch Futuros
+- Feature ImageField no banco para salvar e gerenciar a imagem do post (as imagens estão fixas em um png de exemplo).
+- Campo django-quill para RickTextEditor ná area de edição de post. Vai requerer mudança do campo content no banco para QuillFild e instalação da biblioteca. O texto passara a ser salvo no formato delta-quill, semelhante a html. Assim conservará formatação.
+- Fixes: separação de rotas correção de bugs.
