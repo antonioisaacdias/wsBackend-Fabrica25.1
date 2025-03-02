@@ -30,9 +30,18 @@ def full_article(request, slug):
         url = settings.INTERNAL_API_URL + 'articles/' + slug + '/'
         response = requests.get(url)
         if response.status_code == 200:
-            article = response.json()
+            full_article = response.json()
+            full_article['created_at'] = datetime_long_formater(full_article['created_at'])
             
-            return render(request, 'frontend/article.html', {'article': article})
+            url = settings.INTERNAL_API_URL + 'articles/nyt/tech/'
+            response = requests.get(url)
+            nyt_news = []
+            if response.status_code == 200:
+                nyt_news = response.json()
+                for new in nyt_news:
+                    new['created_at'] = date_short_formater(new['created_at'])
+            
+            return render(request, 'frontend/article.html', {'article': full_article, 'nyt_news': nyt_news})
         
         return render(request, 'frontend/error.html', {'error': 'Artigo não encontrado'})
         

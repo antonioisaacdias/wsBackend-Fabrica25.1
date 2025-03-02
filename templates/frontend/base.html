@@ -17,12 +17,12 @@
 </head>
 <body>
     <header>
-        <div class=".container-fluid brandbar">
+        <a class=".container-fluid brandbar" href="/">
             <img src="{% static 'img/logo.png' %}" alt="Logo Setup Linux BR">
             <h1>
                 Blog Setup Linux BR
             </h1>
-        </div>
+        <a/>
         {% if request.resolver_match.view_name == 'index'  or request.resolver_match.view_name == 'full_article'%}
         <nav class="navbar navbar-expand-sm">
             <div class="container-fluid">

@@ -22,7 +22,7 @@ class Article(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True) 
     
     def save(self, *args, **kwargs):
         if not self.slug:

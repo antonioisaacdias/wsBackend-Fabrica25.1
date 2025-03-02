@@ -2,5 +2,33 @@
 
 {% load static %}
 {% block content %}
-<h1>Bem vindo ao artigo</h1>
+<section class="full-post">
+    <article>
+        <img src="{% static 'img/post-example.jpg'%}" alt="" width="">
+        <h1>{{article.title}}</h1>
+        <div>
+            <span>
+                Escrito por: Antonio Dias
+            </span>
+            <span>
+                Em: {{article.created_at}}
+            </span>
+        </div>
+        <p>{{article.content}}</p>
+    </article>
+    <aside>
+        <div>
+            Agora no
+            <h4>NY Times</h4>
+        </div>
+
+        {% for article in nyt_news|slice:":5" %}
+        <div class="card-aside" onclick="window.location.href='{{ article.url }}'">
+            <img src="{{article.image}}" alt="" width="">
+            <h2>{{ article.title }}</h2>
+            <p>{{ article.resume }}</p>
+        </div>
+        {% endfor %}
+    </aside>
+</section>
 {% endblock %}

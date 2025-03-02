@@ -151,7 +151,6 @@ def nyt_tech_articles(request):
                     'url': result['url']
                 }
                 articles.append(article)
-                print(article['subject'])
         
         else:
             articles = []    
